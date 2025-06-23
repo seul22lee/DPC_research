@@ -1,0 +1,3 @@
+[submodule "MPC_research_submodule"]
+	path = MPC_research_submodule
+	url = https://github.com/seul22lee/MPC_research.git
