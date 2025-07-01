@@ -47,8 +47,8 @@ import gamma.interface as rs
 from multiprocessing import Process
 import time
 
-num = 0
-os.environ['CUDA_VISIBLE_DEVICES'] = f'{num}'
+# num = 0
+# os.environ['CUDA_VISIBLE_DEVICES'] = f'{num}'
 
 
 import os
