@@ -72,15 +72,10 @@ class surrogate():
 # ========= Forward ============
 
     def forward(self, u_hat, u_future_fix, u_past, x_past_fix, x_past):
-       
-        # convert u_hat into tensor and set u_hat as variable
-        future_cov = torch.concat((u_future_fix,u_hat), dim = 1).unsqueeze(0)
-        # knit past and future covariate into the input format for TiDE
-        past_cov = torch.tensor(torch.concat((x_past,x_past_fix,u_past), dim = 1),dtype=torch.float32).unsqueeze(0)
-        
-        # TiDE prediction
-        x_hat = self.NN_model([past_cov,future_cov,None])   
-        
-        return  x_hat[0,:,:,1], x_hat[0,:,:,:]
+        device = next(self.NN_model.parameters()).device
+        future_cov = torch.cat((u_future_fix, u_hat), dim=2).to(device)
+        past_cov = torch.cat((x_past, x_past_fix, u_past), dim=2).to(device)
+        x_hat = self.NN_model([past_cov, future_cov, None])  # shape: [B, 50, 2, 3]
+        return x_hat
         
         
