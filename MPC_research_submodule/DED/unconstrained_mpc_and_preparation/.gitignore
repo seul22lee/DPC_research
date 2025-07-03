@@ -1,0 +1,11 @@
+# Ignore large files
+*.zip
+*.tar.gz
+*.iso
+*.exe
+*.bin
+
+# Ignore specific directories
+node_modules/
+vendor/
+dist/

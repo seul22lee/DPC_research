@@ -1,0 +1,11 @@
+Metadata-Version: 2.1
+Name: gamma
+Version: 0.0.1
+Summary: A GPU-accelerated FEM solver for residual stress simulation in additive manufacturing using CuPy
+Author: Shuheng Liao, Ashkan Golgoon
+Project-URL: Homepage, https://github.com/ShuhengLiao/AM_Thermomechanical_Solver
+Project-URL: Bug Tracker, https://github.com/ShuhengLiao/AM_Thermomechanical_Solver/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
