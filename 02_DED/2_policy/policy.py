@@ -37,15 +37,15 @@ class PolicyNN(nn.Module):
         x = torch.cat([past.flatten(start_dim=1), future.flatten(start_dim=1)], dim=1)
 
         x = self.input_layer(x)
-        x = self.input_ln(x)
-        x = F.relu(x)
+        # x = self.input_ln(x)
+        x = F.leaky_relu(x, negative_slope=0.01) # leaky relu 
         x = self.dropout(x)
 
         for layer, norm in zip(self.hidden_layers, self.norm_layers):
             residual = x
             x = layer(x)
-            x = norm(x)
-            x = F.relu(x)
+            # x = norm(x)
+            x = F.leaky_relu(x, negative_slope=0.01) # leaky relu 
             x = self.dropout(x)
             x = x + residual  # residual connection
 
