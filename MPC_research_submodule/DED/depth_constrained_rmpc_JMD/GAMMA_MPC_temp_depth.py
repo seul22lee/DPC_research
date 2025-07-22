@@ -70,6 +70,7 @@ class GAMMA_MPC():
         return None
     
     def MPC_run_one_step_pytorch(self):
+
         
         # select the counter part of reference
         mp_temp_ref = self.ref[self.MPC_counter:self.MPC_counter + self.P] # shape = [50]
@@ -171,6 +172,7 @@ class GAMMA_MPC():
         self.u_past[-1] = torch.tensor(u_applied)
         
         self.save_time.append(time1-time2)
+        print(f"Iteration {self.MPC_counter} - Time taken for optimization: {time2-time1:.4f} seconds") 
         
         self.x_hat_current = mp_hat_opt[0,:] # [1,2]
         self.x_sys_current = torch.tensor([[x_current],[depth_current]])

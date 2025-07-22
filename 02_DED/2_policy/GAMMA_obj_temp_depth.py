@@ -63,15 +63,21 @@ from get_melt_pool_temp_width_depth import get_meltpool_temp_width_depth
 
 
 class GAMMA_obj():
-    def __init__(self, INPUT_DATA_DIR, SIM_DIR_NAME, BASE_LASER_FILE_DIR, CLOUD_TARGET_BASE_PATH, solidus_temp, window, init_runs, sim_interval):
+    def __init__(self, INPUT_DATA_DIR, SIM_DIR_NAME, BASE_LASER_FILE_DIR, CLOUD_TARGET_BASE_PATH, solidus_temp, window, init_runs, sim_interval, laser_power_number):
         self.INPUT_DATA_DIR = INPUT_DATA_DIR
         self.SIM_DIR_NAME = SIM_DIR_NAME
         self.BASE_LASER_FILE_DIR = BASE_LASER_FILE_DIR
         self.CLOUD_TARGET_BASE_PATH = CLOUD_TARGET_BASE_PATH
-        
-        self.laser_profile_filename_simulation = f"laser_profile_{1}"
-        self.laser_profile_filename = f"laser_profile_{1}.zarr"
+
+        self.laser_profile_number = laser_power_number
+        self.laser_profile_filename_simulation = f"laser_profile_{laser_power_number}"
+        self.laser_profile_filename = f"{self.laser_profile_filename_simulation}.zarr"
         self.LASER_FILE = os.path.join(BASE_LASER_FILE_DIR, self.laser_profile_filename_simulation)
+
+        
+        # self.laser_profile_filename_simulation = f"laser_profile_{1}"
+        # self.laser_profile_filename = f"laser_profile_{1}.zarr"
+        # self.LASER_FILE = os.path.join(BASE_LASER_FILE_DIR, self.laser_profile_filename_simulation)
         
         self.solidus_temp = solidus_temp
         self.window = window
