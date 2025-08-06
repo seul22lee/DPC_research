@@ -146,10 +146,11 @@ class GAMMA_obj():
     def run_sim_interval(self,laser_power):
         for i in range(self.sim_interval):
             self.GAMMA.run_onestep(laser_power)
+
             laser_on = 1
             self.melt_pool_temp_save, self.melt_pool_width_save, self.melt_pool_depth_save = get_melt_pool(laser_on, self.GAMMA, self.global_counter, self.melt_pool_temp_save, self.melt_pool_width_save, self.melt_pool_depth_save, self.solidus_temp)
             self.global_counter += 1
-        
+            
         averaging = True
         
         avg_mp_temp = np.mean(self.melt_pool_temp_save[-self.sim_interval:]["temp"].values)
