@@ -1,0 +1,9 @@
+# Ignore only specific large files
+02_DED/4_policy_0725/train_dataset.pkl
+02_DED/4_policy_0725/val_dataset.pkl
+02_DED/4_policy_0725/vae_recon_uncovered.csv
+02_DED/4_policy_0725/vae_recon_uncovered_case1.csv
+*.zarr
+*.pth
+*.csv
+01_Toy/ME341_Project_DPC/

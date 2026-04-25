@@ -1,0 +1,254 @@
+% visualization for replicate tests,1.6
+
+clc;
+clear;
+close all
+
+% load data
+x1_full_quantile = rmmissing(table2array(readtable("x1_save_nominal_quantile.csv")));
+x2_full_quantile = rmmissing(table2array(readtable("x2_save_nominal_quantile.csv")));
+
+x1_error_only_quantile = load('tubeMPC_replicate_results.mat').x1_tubeMPC;
+x2_error_only_quantile = load('tubeMPC_replicate_results.mat').x2_tubeMPC;
+
+x1_constrained_quantile = rmmissing(table2array(readtable("x1_save_constrained_quantile.csv")));
+x2_constrained_quantile = rmmissing(table2array(readtable("x2_save_constrained_quantile.csv")));
+
+
+% reference trajectory
+% Define the sigmoid function
+sigmoidd = @(x) 1 ./ (1 + exp(-x / 4));
+% Define the scaling parameters
+a = 2.5 - 0; % Difference between upper bound and lower bound
+% Generate x values from 0 to 29
+x = linspace(0, 50, 50);
+% Compute the sigmoid values, scale, and shift them
+y = -sigmoidd(x - 25) * a + 2.5;
+% Alternative Ref_traj with additional sigmoid smoothing
+Ref_traj_alt = repelem([0, -2, -2, 0, 2.5, 2.5], 1, 20);
+smoothen = y;
+Ref_traj_final = [Ref_traj_alt, smoothen, zeros(1, 40)];
+
+% Define the scaling parameters
+a = 2.5 - 0; % Difference between upper bound and lower bound
+b = 0;  % Lower bound
+
+% Compute the sigmoid values, scale, and shift them
+y = -sigmoidd(x - 25) * a + 2.5;
+
+% find quantile
+q = [0.05,0.5,0.95];
+x = 1:size(x1_full_quantile, 2);
+
+x1_full_quantile_q = quantile(x1_full_quantile,q,1);
+x2_full_quantile_q = quantile(x2_full_quantile,q,1);
+
+x1_error_only_quantile_q = quantile(x1_error_only_quantile,q,1);
+x2_error_only_quantile_q = quantile(x2_error_only_quantile,q,1);
+
+
+x1_constrained_q = quantile(x1_constrained_quantile,q,1);
+x2_constrained_q = quantile(x2_constrained_quantile,q,1);
+
+
+subplot(2,3,1)
+hold on
+plot(x,Ref_traj_final(1:size(x,2)),"linewidth",2,"color",[0.7,0.7,0.7])
+
+% constrained
+fill([x, fliplr(x)], [x1_constrained_q(1,:), fliplr(x1_constrained_q(3,:))], [255, 127, 14]/255, 'FaceAlpha', 0.5, 'EdgeColor', "None");
+plot(x,x1_constrained_q(2,:),"Color",[255, 127, 14]/255,"linewidth",2)
+
+plot(x,ones([size(x1_full_quantile, 2),1])*2.5,"k--","linewidth",2);
+plot(x,ones([size(x1_full_quantile, 2),1])*-2,"k--","linewidth",2);
+axis([15,65,-2.1,-1.6])
+axis([-inf,inf,-2.2,2.6])
+xlabel("Timestep","FontSize",14)
+%ylabel("y_1","Fontsize",14)
+
+
+subplot(2,3,2)
+hold on
+plot(x,Ref_traj_final(1:size(x,2)),"linewidth",2,"color",[0.7,0.7,0.7])
+% MPC quantile only
+fill([x, fliplr(x)], [x1_error_only_quantile_q(1,:), fliplr(x1_error_only_quantile_q(3,:))], 'b', 'FaceAlpha', 0.3, 'EdgeColor', "None");
+plot(x1_error_only_quantile_q(2,:),"b","linewidth",2)
+
+plot(x,ones([size(x1_full_quantile, 2),1])*2.5,"k--","linewidth",2);
+plot(x,ones([size(x1_full_quantile, 2),1])*-2,"k--","linewidth",2);
+
+axis([15,65,-2.1,-1.6])
+axis([-inf,inf,-2.2,2.6])
+xlabel("Timestep","FontSize",14)
+%ylabel("y_1","Fontsize",14)
+
+% full
+subplot(2,3,3)
+hold on
+plot(x,Ref_traj_final(1:size(x,2)),"linewidth",2,"color",[0.7,0.7,0.7])
+fill([x, fliplr(x)], [x1_full_quantile_q(1,:), fliplr(x1_full_quantile_q(3,:))], 'r', 'FaceAlpha', 0.3, 'EdgeColor', "None");
+plot(x1_full_quantile_q(2,:),"red","linewidth",2)
+
+plot(x,ones([size(x1_full_quantile, 2),1])*2.5,"k--","linewidth",2);
+plot(x,ones([size(x1_full_quantile, 2),1])*-2,"k--","linewidth",2);
+
+axis([15,65,-2.1,-1.6])
+axis([-inf,inf,-2.2,2.6])
+xlabel("Timestep","FontSize",14)
+%ylabel("y_1","Fontsize",14)
+
+% ========================
+subplot(2,3,4)
+hold on
+
+% constrained
+fill([x, fliplr(x)], [x2_constrained_q(1,:), fliplr(x2_constrained_q(3,:))], [255, 127, 14]/255, 'FaceAlpha', 0.5, 'EdgeColor', "None");
+plot(x2_constrained_q(2,:),"Color",[255, 127, 14]/255,"linewidth",2)
+
+plot(x,ones([size(x1_full_quantile, 2),1])*3.5,"k--","linewidth",2);
+plot(x,ones([size(x1_full_quantile, 2),1])*-3.5,"k--","linewidth",2);
+
+axis([70,160,2.8,3.7])
+axis([-inf,inf,-3.7,3.7])
+xlabel("Timestep","FontSize",14)
+%ylabel("y_2","Fontsize",14)
+
+subplot(2,3,5)
+hold on
+% MPC quantile only
+fill([x, fliplr(x)], [x2_error_only_quantile_q(1,:), fliplr(x2_error_only_quantile_q(3,:))], 'b', 'FaceAlpha', 0.3, 'EdgeColor', "None");
+plot(x2_error_only_quantile_q(2,:),"b","linewidth",2)
+
+plot(x,ones([size(x1_full_quantile, 2),1])*3.5,"k--","linewidth",2);
+plot(x,ones([size(x1_full_quantile, 2),1])*-3.5,"k--","linewidth",2);
+axis([70,160,2.8,3.7])
+axis([-inf,inf,-3.7,3.7])
+xlabel("Timestep","FontSize",14)
+%ylabel("y_2","Fontsize",14)
+
+subplot(2,3,6)
+hold on
+% full
+fill([x, fliplr(x)], [x2_full_quantile_q(1,:), fliplr(x2_full_quantile_q(3,:))], 'r', 'FaceAlpha', 0.3, 'EdgeColor', "None");
+plot(x2_full_quantile_q(2,:),"red","linewidth",2)
+
+plot(x,ones([size(x1_full_quantile, 2),1])*3.5,"k--","linewidth",2);
+plot(x,ones([size(x1_full_quantile, 2),1])*-3.5,"k--","linewidth",2);
+
+axis([70,160,2.8,3.7])
+axis([-inf,inf,-3.7,3.7])
+xlabel("Timestep","FontSize",14)
+%ylabel("y_2","Fontsize",14)
+
+%% plot violation counts
+
+figure
+subplot(1,3,1)
+n_Timestep = size(x1_full_quantile,2);
+
+g1_violate = zeros(1, n_Timestep);
+g2_violate = zeros(1, n_Timestep);
+g3_violate = zeros(1, n_Timestep);
+g4_violate = zeros(1, n_Timestep);
+
+
+
+for i = 1:n_Timestep
+    x1_instant = x1_constrained_quantile(:, i);
+    x2_instant = x2_constrained_quantile(:, i);
+    
+    g1_violate(i) = sum(x1_instant >= 2.5);
+    g2_violate(i) = sum(x1_instant <= -2);
+    g3_violate(i) = sum(x2_instant >= 3.5);
+    g4_violate(i) = sum(x2_instant <= -3.5);
+end
+
+
+hold on
+h1 = plot(g1_violate, "linewidth",2, "DisplayName","g1 violation count");
+h2 = plot(g2_violate, "linewidth",2, "DisplayName","g1 violation count");
+h3 = plot(g3_violate, "linewidth",2, "DisplayName","g1 violation count");
+h4 = plot(g4_violate, "linewidth",2, "DisplayName","g1 violation count");
+
+plot(linspace(0,n_Timestep,n_Timestep),repmat(50,n_Timestep),"r--","linewidth",1)
+
+xlabel("Timestep")
+ylabel("Count")
+set(gca,"fontsize",15)
+
+axis([-inf,inf,0,600])
+
+subplot(1,3,2)
+axis([-inf,inf,0,600])
+n_Timestep = size(x1_full_quantile,2);
+
+g1_violate = zeros(1, n_Timestep);
+g2_violate = zeros(1, n_Timestep);
+g3_violate = zeros(1, n_Timestep);
+g4_violate = zeros(1, n_Timestep);
+
+
+
+for i = 1:n_Timestep
+    x1_instant = x1_error_only_quantile(:, i);
+    x2_instant = x2_error_only_quantile(:, i);
+    
+    g1_violate(i) = sum(x1_instant >= 2.5);
+    g2_violate(i) = sum(x1_instant <= -2);
+    g3_violate(i) = sum(x2_instant >= 3.5);
+    g4_violate(i) = sum(x2_instant <= -3.5);
+end
+
+
+hold on
+h1 = plot(g1_violate, "linewidth",2, "DisplayName","g1 violation count");
+h2 = plot(g2_violate, "linewidth",2, "DisplayName","g2 violation count");
+h3 = plot(g3_violate, "linewidth",2, "DisplayName","g3 violation count");
+h4 = plot(g4_violate, "linewidth",2, "DisplayName","g4 violation count");
+
+plot(linspace(0,n_Timestep,n_Timestep),repmat(50,n_Timestep),"r--","linewidth",1)
+
+xlabel("Timestep")
+ylabel("Count")
+set(gca,"fontsize",15)
+
+axis([-inf,inf,0,600])
+
+subplot(1,3,3)
+axis([-inf,inf,0,600])
+
+n_Timestep = size(x1_full_quantile,2);
+
+g1_violate = zeros(1, n_Timestep);
+g2_violate = zeros(1, n_Timestep);
+g3_violate = zeros(1, n_Timestep);
+g4_violate = zeros(1, n_Timestep);
+
+
+
+for i = 1:n_Timestep
+    x1_instant = x1_full_quantile(:, i);
+    x2_instant = x2_full_quantile(:, i);
+    
+    g1_violate(i) = sum(x1_instant >= 2.5);
+    g2_violate(i) = sum(x1_instant <= -2);
+    g3_violate(i) = sum(x2_instant >= 3.5);
+    g4_violate(i) = sum(x2_instant <= -3.5);
+end
+
+
+hold on
+h1 = plot(g1_violate, "linewidth",2, "DisplayName","g1 violation count");
+h2 = plot(g2_violate, "linewidth",2, "DisplayName","g2 violation count");
+h3 = plot(g3_violate, "linewidth",2, "DisplayName","g3 violation count");
+h4 = plot(g4_violate, "linewidth",2, "DisplayName","g4 violation count");
+
+plot(linspace(0,n_Timestep,n_Timestep),repmat(50,n_Timestep),"r--","linewidth",1)
+legend([h1,h2,h3,h4], "location", "southoutside",'Orientation', 'horizontal')
+
+xlabel("Timestep")
+ylabel("Count")
+set(gca,"fontsize",15)
+
+axis([-inf,inf,0,600])
+
