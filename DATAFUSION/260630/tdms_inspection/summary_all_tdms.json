@@ -1,0 +1,75 @@
+[
+  {
+    "file": "HAMMER_Square_600W_1_12.tdms",
+    "size_gb": 42.69261322822422,
+    "group": "Photodiode Data",
+    "channel": "Timestamp",
+    "dtype": "datetime64[us]",
+    "length": 4960200,
+    "possible_shapes": []
+  },
+  {
+    "file": "HAMMER_Square_600W_1_12.tdms",
+    "size_gb": 42.69261322822422,
+    "group": "Photodiode Data",
+    "channel": "TEP Low",
+    "dtype": "float64",
+    "length": 4960200,
+    "possible_shapes": []
+  },
+  {
+    "file": "HAMMER_Square_600W_1_12.tdms",
+    "size_gb": 42.69261322822422,
+    "group": "Photodiode Data",
+    "channel": "TEP High",
+    "dtype": "float64",
+    "length": 4960200,
+    "possible_shapes": []
+  },
+  {
+    "file": "HAMMER_Square_600W_1_12.tdms",
+    "size_gb": 42.69261322822422,
+    "group": "Image Data",
+    "channel": "Flattened Images",
+    "dtype": "uint32",
+    "length": 11420467200,
+    "possible_shapes": [
+      {
+        "type": "grayscale",
+        "width": 640,
+        "height": 480,
+        "frames": 37176
+      },
+      {
+        "type": "rgb",
+        "width": 640,
+        "height": 480,
+        "frames": 12392
+      },
+      {
+        "type": "grayscale",
+        "width": 1280,
+        "height": 720,
+        "frames": 12392
+      }
+    ]
+  },
+  {
+    "file": "HAMMER_Square_600W_1_12.tdms",
+    "size_gb": 42.69261322822422,
+    "group": "Image Data",
+    "channel": "Timestamp",
+    "dtype": "uint32",
+    "length": 49568,
+    "possible_shapes": []
+  },
+  {
+    "file": "HAMMER_Square_600W_1_12.tdms",
+    "size_gb": 42.69261322822422,
+    "group": "Image Data",
+    "channel": "Dropped Frames?",
+    "dtype": "uint8",
+    "length": 49568,
+    "possible_shapes": []
+  }
+]

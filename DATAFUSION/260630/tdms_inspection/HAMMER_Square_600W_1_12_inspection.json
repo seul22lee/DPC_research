@@ -1,0 +1,103 @@
+{
+  "file": "/mnt/a/ftk3187/HAMMER/DED/RGB/raw_test/HAMMER_Square_600W_1_12.tdms",
+  "file_size_gb": 42.69261322822422,
+  "groups": [
+    {
+      "name": "Photodiode Data",
+      "properties": {
+        "Buffer Size": "200",
+        "PD Acquisition Rate": "20000",
+        "Channels": "PXI1Slot2/ai0:1"
+      },
+      "channels": [
+        {
+          "name": "Timestamp",
+          "dtype": "datetime64[us]",
+          "length": 4960200,
+          "properties": {},
+          "possible_shapes": []
+        },
+        {
+          "name": "TEP Low",
+          "dtype": "float64",
+          "length": 4960200,
+          "properties": {
+            "wf_start_time": "2026-04-24T21:28:48.721802",
+            "wf_start_offset": 0.0,
+            "wf_increment": 4.999999999999997e-05,
+            "wf_samples": 200,
+            "NI_ChannelName": "PXI1Slot2/ai0",
+            "NI_UnitDescription": "Volts",
+            "unit_string": "Volts"
+          },
+          "possible_shapes": []
+        },
+        {
+          "name": "TEP High",
+          "dtype": "float64",
+          "length": 4960200,
+          "properties": {
+            "wf_start_time": "2026-04-24T21:28:48.721813",
+            "wf_start_offset": 0.0,
+            "wf_increment": 4.999999999999997e-05,
+            "wf_samples": 200,
+            "NI_ChannelName": "PXI1Slot2/ai1",
+            "NI_UnitDescription": "Volts",
+            "unit_string": "Volts"
+          },
+          "possible_shapes": []
+        }
+      ]
+    },
+    {
+      "name": "Image Data",
+      "properties": {},
+      "channels": [
+        {
+          "name": "Flattened Images",
+          "dtype": "uint32",
+          "length": 11420467200,
+          "properties": {
+            "Image X": 480,
+            "Image Y": 480,
+            "PCF_Filename": "C:\\Users\\rzl8140.MCC\\Desktop\\100_x_100_test_6.pcf"
+          },
+          "possible_shapes": [
+            {
+              "type": "grayscale",
+              "width": 640,
+              "height": 480,
+              "frames": 37176
+            },
+            {
+              "type": "rgb",
+              "width": 640,
+              "height": 480,
+              "frames": 12392
+            },
+            {
+              "type": "grayscale",
+              "width": 1280,
+              "height": 720,
+              "frames": 12392
+            }
+          ]
+        },
+        {
+          "name": "Timestamp",
+          "dtype": "uint32",
+          "length": 49568,
+          "properties": {},
+          "possible_shapes": []
+        },
+        {
+          "name": "Dropped Frames?",
+          "dtype": "uint8",
+          "length": 49568,
+          "properties": {},
+          "possible_shapes": []
+        }
+      ]
+    }
+  ]
+}
